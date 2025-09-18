@@ -219,6 +219,8 @@ export class LLMParserService {
 
 CRITICAL: Extract EVERY week's assignments, not just the first week!
 
+ABSOLUTE PRIORITY: If you see ANY content with a specific date (any month/day combination), extract it as an assignment/reading with that date. NEVER put dated content in "activities" - only put truly undated content in activities. This applies to ALL syllabus types and formats.
+
 ${courseInfo}
 
 Syllabus Text:
@@ -323,22 +325,36 @@ CRITICAL WEEK PATTERN HANDLING:
 - "March 21 • Complete: Online course evaluation" → Extract as assignment for March 21, 2025
 - NEVER put week-based content in "activities" - always extract with the specific date mentioned
 
-SPECIFIC EXAMPLES TO FOLLOW:
-- "Week 1 January 17: Podcasts 1, 2, and 3" → Extract as ONE event: "Podcasts 1, 2, and 3" for January 17, 2025, type: "reading"
-- "Week 4 February 7: Podcasts 4, 5, and 6" → Extract as ONE event: "Podcasts 4, 5, and 6" for February 7, 2025, type: "reading"
-- "Week 7 February 24: Podcasts 7, 8, and 9" → Extract as ONE event: "Podcasts 7, 8, and 9" for February 24, 2025, type: "reading"
-- "Week 10 March 21: Online course evaluation" → Extract as ONE event: "Online course evaluation" for March 21, 2025, type: "assignment"
-- "The Handbook for the New Legal Writer: Chapters 25-28, pages 181-206" → Extract as assignment for the specific due date, type: "assignment"
+UNIVERSAL PATTERN RECOGNITION (APPLIES TO ALL SYLLABI):
+- "Week X [Date]: [Content]" → Extract as ONE event with that specific date
+- "[Date] • [Activity Type]: [Content]" → Extract as assignment/reading for that specific date
+- "• Optional Listening: [Content]" → Extract as reading with the date from the week/section
+- "• Complete: [Content]" → Extract as assignment with the date from the week/section
+- "• Read: [Content]" → Extract as reading with the date from the week/section
+- "• Watch: [Content]" → Extract as reading with the date from the week/section
+- "• Review: [Content]" → Extract as reading with the date from the week/section
+- "• Study: [Content]" → Extract as reading with the date from the week/section
 
-CRITICAL DATE FIXES:
-- When you see "Week 1 January 17:" the date should be January 17, 2025 (NOT January 16, 2025)
-- When you see "Week 2 January 24:" the date should be January 24, 2025 (NOT January 23, 2025)
-- When you see "Week 3 January 31:" the date should be January 31, 2025 (NOT January 30, 2025)
-- When you see "Week 4 February 7:" the date should be February 7, 2025 (NOT February 6, 2025)
-- ALWAYS use the EXACT date mentioned in the "Week X [Date]:" format
-- DO NOT subtract one day from the date - use the date as written
-- NEVER use date arithmetic - if the syllabus says "January 17", use "January 17, 2025"
+UNIVERSAL EXAMPLES (ALL SYLLABUS TYPES):
+- "Week 1 January 17: Introduction materials" → Extract as ONE event for January 17, type: "reading"
+- "Week 4 February 7: Midterm preparation" → Extract as ONE event for February 7, type: "assignment"
+- "February 24 • Optional Reading: Chapter 5" → Extract as reading for February 24, type: "reading"
+- "March 21 • Complete: Course evaluation" → Extract as assignment for March 21, type: "assignment"
+- "January 17 • Watch: Lecture videos" → Extract as reading for January 17, type: "reading"
+
+ABSOLUTE UNIVERSAL RULE: If you see ANY specific date (January, February, March, April, etc.) followed by ANY content (• Optional, • Complete, • Read, • Watch, etc.), extract it as an assignment/reading with that specific date. NEVER put dated content in "activities".
+
+UNIVERSAL DATE HANDLING RULES (ALL SYLLABI):
+- ALWAYS use the EXACT date mentioned in any format (Week X [Date]:, [Date] •, etc.)
+- DO NOT subtract one day from any date - use the date as written
+- NEVER use date arithmetic - if the syllabus says "January 17", use "January 17"
 - NEVER convert dates to the day before - this is a critical error
+- If you see "Week X [Date]:" format, use the exact date provided
+- If you see "[Date] •" format, use the exact date provided
+- If you see "[Month] [Day]" format, use the exact date provided
+- For Spring 2025 syllabi: All dates should be in 2025
+- For Fall 2024 syllabi: All dates should be in 2024
+- For Summer 2025 syllabi: All dates should be in 2025
 
 ASSIGNMENT SCHEDULE EXTRACTION:
 - Look for "ASSIGNMENT SCHEDULE" or "Reading and Assignment Schedule" sections
@@ -384,7 +400,9 @@ Return JSON with this structure:
 }
 
 CRITICAL: Extract ALL weeks, not just Week 1. Look for every "Week X:" pattern in the text.
-CRITICAL: Only use specific dates if explicitly found in the text. Otherwise, put items in activities section.
+CRITICAL: If you see ANY specific date (any month/day combination), extract the content for that date as an assignment/reading. NEVER put dated content in activities.
+CRITICAL: Activities should ONLY contain content with NO specific dates mentioned anywhere.
+CRITICAL: These rules apply to ALL syllabus types - law school, undergraduate, graduate, etc.
 
 JSON Response:`;
   }
