@@ -344,7 +344,97 @@ JSON Response:`;
   /**
    * Convert LLM response to CalendarEvent format
    */
+  /**
+   * Convert LLM response to CalendarEvent format
+   */
   private static convertToCalendarEvents(llmData: LLMParsedSyllabus): CalendarEvent[] {
+    const events: CalendarEvent[] = [];
+
+    // Convert assignments
+    for (const assignment of llmData.assignments) {
+      try {
+        // Validate the date string
+        const dateStr = assignment.due_date;
+        if (!dateStr || !dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+          console.warn(`Invalid date format for assignment "${assignment.title}": ${dateStr}`);
+          continue; // Skip this assignment
+        }
+        
+        const date = new Date(dateStr + 'T00:00:00');
+        if (isNaN(date.getTime())) {
+          console.warn(`Invalid date for assignment "${assignment.title}": ${dateStr}`);
+          continue; // Skip this assignment
+        }
+        
+        events.push({
+          id: this.generateEventId(assignment.title, date),
+          title: assignment.title,
+          description: assignment.details,
+          date: date,
+          type: EventType.ASSIGNMENT,
+          priority: this.mapPriority(assignment.priority),
+          completed: false,
+        });
+      } catch (error) {
+        console.warn(`Error processing assignment "${assignment.title}":`, error);
+        continue; // Skip this assignment
+      }
+    }
+
+    // Convert exams
+    for (const exam of llmData.exams) {
+      try {
+        const dateStr = exam.date;
+        if (!dateStr || !dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+          console.warn(`Invalid date format for exam "${exam.title}": ${dateStr}`);
+          continue;
+        }
+        
+        const date = new Date(dateStr + 'T00:00:00');
+        if (isNaN(date.getTime())) {
+          console.warn(`Invalid date for exam "${exam.title}": ${dateStr}`);
+          continue;
+        }
+        
+        events.push({
+          id: this.generateEventId(exam.title, date),
+          title: exam.title,
+          description: exam.details,
+          date: date,
+          time: exam.time,
+          type: EventType.EXAM,
+          priority: this.mapPriority(exam.priority),
+          completed: false,
+        });
+      } catch (error) {
+        console.warn(`Error processing exam "${exam.title}":`, error);
+        continue;
+      }
+    }
+
+    // Convert activities (these don't have dates, so we'll add them with a placeholder date)
+    for (const activity of llmData.activities) {
+      try {
+        // Use a placeholder date far in the future for activities without dates
+        const placeholderDate = new Date('2099-12-31');
+        
+        events.push({
+          id: this.generateEventId(activity.title, placeholderDate),
+          title: activity.title,
+          description: activity.details,
+          date: placeholderDate,
+          type: activity.type === 'reading' ? EventType.READING : EventType.OTHER,
+          priority: this.mapPriority(activity.priority),
+          completed: false,
+        });
+      } catch (error) {
+        console.warn(`Error processing activity "${activity.title}":`, error);
+        continue;
+      }
+    }
+
+    return events.sort((a, b) => a.date.getTime() - b.date.getTime());
+  }
     const events: CalendarEvent[] = [];
 
     // Convert assignments
@@ -414,7 +504,20 @@ JSON Response:`;
    */
   private static generateEventId(title: string, date: Date): string {
     const titleHash = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-    const dateStr = date.toISOString().split('T')[0];
+    
+    // Handle invalid dates gracefully
+    let dateStr: string;
+    try {
+      if (isNaN(date.getTime())) {
+        // If date is invalid, use a fallback
+        dateStr = 'invalid-date';
+      } else {
+        dateStr = date.toISOString().split('T')[0];
+      }
+    } catch (error) {
+      dateStr = 'invalid-date';
+    }
+    
     return `${titleHash}-${dateStr}`;
   }
 
