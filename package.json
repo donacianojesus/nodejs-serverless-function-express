@@ -1,10 +1,53 @@
 {
-  "repository": "https://github.com/vercel/examples.git",
-  "license": "MIT",
-  "private": true,
+  "name": "syllabus-to-calendar-backend",
+  "version": "1.0.0",
+  "description": "Backend API for LawBandit Calendar - syllabus parsing and calendar management",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "lint": "eslint api/**/*.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vercel/node": "^3.0.0",
+    "cors": "^2.8.5",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "mammoth": "^1.6.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.20.1",
+    "pdf-parse": "^1.1.1",
+    "zod": "^3.22.4"
+  },
   "devDependencies": {
-    "@types/node": "^17.0.42",
-    "@vercel/node": "^2.9.6",
-    "typescript": "^4.7.3"
-  }
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.8",
+    "@types/morgan": "^1.9.9",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.19.13",
+    "@types/pdf-parse": "^1.1.5",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.3.2"
+  },
+  "keywords": [
+    "api",
+    "syllabus",
+    "calendar",
+    "parsing",
+    "typescript",
+    "vercel"
+  ],
+  "author": "LawBandit Team",
+  "license": "MIT"
 }
