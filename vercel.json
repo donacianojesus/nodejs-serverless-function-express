@@ -1,13 +1,14 @@
 {
     "version": 2,
+    "functions": {
+      "api/index.ts": {
+        "runtime": "nodejs18.x"
+      }
+    },
     "routes": [
       {
-        "src": "/api/(.*)",
-        "dest": "/api/$1"
-      },
-      {
-        "src": "/health",
-        "dest": "/api/health"
+        "src": "/(.*)",
+        "dest": "/api/index.ts"
       }
     ]
   }
