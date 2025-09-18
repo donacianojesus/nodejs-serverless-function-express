@@ -223,7 +223,7 @@ ABSOLUTE PRIORITY: If you see ANY content with a specific date (any month/day co
 
 CRITICAL HIERARCHY RULE: When you see a date followed by bullet points on separate lines, ALL those bullet points belong to that date. For example: "January 24" followed by "• Read: [content]" and "• Optional Listening: [content]" means BOTH items are for January 24. NEVER extract bullet points as separate undated items when they appear under a date header.
 
-UNIVERSAL RULE FOR OPTIONAL TASKS: If you see "• Optional Listening:" or "• Optional Reading:" or "• Optional Watching:" in the text, check if it appears under a specific date header. If it does, extract it with that date. If it appears in a general section without a specific date, it can go in activities. Always look for the nearest date header above optional tasks.
+UNIVERSAL RULE FOR OPTIONAL TASKS: If you see "• Optional Listening:" or "• Optional Reading:" or "• Optional Watching:" in the text, ALWAYS extract it as a reading activity. Check if it appears under a specific date header - if it does, extract it with that date. If it appears in a general section without a specific date, extract it as an activity without a date. Never ignore optional tasks - they are always valuable content to extract.
 
 ${courseInfo}
 
@@ -372,8 +372,8 @@ SPECIFIC HIERARCHICAL EXAMPLES:
 UNIVERSAL OPTIONAL TASK EXAMPLES:
 - If you see "• Optional Listening: [content]" under a date header like "January 24", extract it as reading for January 24
 - If you see "• Optional Reading: [content]" under a date header like "February 7", extract it as reading for February 7
-- If you see "• Optional Listening: [content]" in a general section without a specific date, it can go in activities
-- The key is checking if the optional task appears under a specific date header or in a general section
+- If you see "• Optional Listening: [content]" in a general section without a specific date, extract it as an activity without a date
+- ALWAYS extract optional tasks - never ignore them. The key is checking if the optional task appears under a specific date header or in a general section
 
 ABSOLUTE UNIVERSAL RULE: If you see ANY specific date (January, February, March, April, etc.) followed by ANY content (• Optional, • Complete, • Read, • Watch, etc.), extract it as an assignment/reading with that specific date. NEVER put dated content in "activities".
 
@@ -441,9 +441,10 @@ Return JSON with this structure:
 CRITICAL: Extract ALL weeks, not just Week 1. Look for every "Week X:" pattern in the text.
 CRITICAL: If you see ANY specific date (any month/day combination), extract the content for that date as an assignment/reading. NEVER put dated content in activities.
 CRITICAL: Activities should ONLY contain content with NO specific dates mentioned anywhere.
+CRITICAL: ALWAYS extract optional tasks (• Optional Listening:, • Optional Reading:, • Optional Watching:) - never ignore them.
 CRITICAL: These rules apply to ALL syllabus types - law school, undergraduate, graduate, etc.
 
-FINAL UNIVERSAL RULE: For optional tasks like "• Optional Listening:" or "• Optional Reading:", check if they appear under a specific date header. If they do, extract them with that date. If they appear in a general section without a specific date, they can go in activities. Always look for the nearest date header above optional tasks to determine if they have a specific date.
+FINAL UNIVERSAL RULE: For optional tasks like "• Optional Listening:" or "• Optional Reading:", ALWAYS extract them. Check if they appear under a specific date header - if they do, extract them with that date. If they appear in a general section without a specific date, extract them as activities without a date. Never ignore optional tasks - they are always valuable content to extract regardless of syllabus type.
 
 JSON Response:`;
   }
