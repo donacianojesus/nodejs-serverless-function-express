@@ -354,6 +354,19 @@ app.get('/api/google-calendar/status', (req, res) => {
   });
 });
 
+// Debug endpoint to check environment variables
+app.get('/api/google-calendar/debug', (req, res) => {
+  return res.json({
+    success: true,
+    data: {
+      clientId: process.env.GOOGLE_CLIENT_ID ? 'SET' : 'NOT SET',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ? 'SET' : 'NOT SET',
+      redirectUri: process.env.GOOGLE_REDIRECT_URI || 'NOT SET',
+      nodeEnv: process.env.NODE_ENV || 'NOT SET'
+    }
+  });
+});
+
 // Root endpoint
 app.get('/', (req, res) => {
   res.status(200).json({
