@@ -261,9 +261,11 @@ SPECIFIC PATTERNS TO FIND:
 - "Research Report" → Extract as assignment
 - "Complete Motion" → Extract as assignment
 - "Partial Motion" → Extract as assignment
-- "Podcast" → Extract as reading/homework activity
-- "Course evaluation" → Extract as assignment
-- "Online course evaluation" → Extract as assignment
+- "Podcast" → Extract as reading/homework activity WITH SPECIFIC DATE if mentioned
+- "Course evaluation" → Extract as assignment WITH SPECIFIC DATE if mentioned
+- "Online course evaluation" → Extract as assignment WITH SPECIFIC DATE if mentioned
+- "Optional Listening:" → Extract as reading activity WITH SPECIFIC DATE if mentioned
+- "Complete:" → Extract as assignment WITH SPECIFIC DATE if mentioned
 
 READING EXTRACTION RULES:
 - ALWAYS include the week number and day (e.g., "Week 1 Monday:", "Week 2 Wednesday:")
@@ -313,6 +315,13 @@ CRITICAL: "Week 10 March 21: Online course evaluation" should create ONE event w
   - date: "2025-03-21" (March 21, 2025)
   - type: "assignment"
   - description: "Complete: Online course evaluation"
+
+CRITICAL WEEK PATTERN HANDLING:
+- When you see "Week X [Date]:" followed by content, extract the content as an assignment/reading for that specific date
+- "Week 1 January 17:" followed by "• Read: [content]" → Extract as assignment for January 17, 2025
+- "Week 7 February 24:" followed by "• Optional Listening: Podcasts 7, 8, and 9" → Extract as reading for February 24, 2025
+- "March 21 • Complete: Online course evaluation" → Extract as assignment for March 21, 2025
+- NEVER put week-based content in "activities" - always extract with the specific date mentioned
 
 SPECIFIC EXAMPLES TO FOLLOW:
 - "Week 1 January 17: Podcasts 1, 2, and 3" → Extract as ONE event: "Podcasts 1, 2, and 3" for January 17, 2025, type: "reading"
@@ -510,15 +519,15 @@ JSON Response:`;
 
     // Convert assignments
     for (const assignment of llmData.assignments) {
-      const dateStr = assignment.due_date + 'T00:00:00';
-      const date = new Date(dateStr);
+      // Parse date in local timezone to avoid day-shifting issues
+      const date = new Date(assignment.due_date + 'T12:00:00');
       console.log(`Assignment: ${assignment.title}, Original date: ${assignment.due_date}, Processed date: ${date.toISOString()}, Local date: ${date.toLocaleDateString()}`);
       
       events.push({
         id: this.generateEventId(assignment.title, new Date(assignment.due_date)),
         title: assignment.title,
         description: assignment.details,
-        date: date, // Ensure local timezone
+        date: date,
         type: EventType.ASSIGNMENT,
         priority: this.mapPriority(assignment.priority),
         completed: false,
@@ -527,11 +536,13 @@ JSON Response:`;
 
     // Convert exams
     for (const exam of llmData.exams) {
+      // Parse date in local timezone to avoid day-shifting issues
+      const date = new Date(exam.date + 'T12:00:00');
       events.push({
         id: this.generateEventId(exam.title, new Date(exam.date)),
         title: exam.title,
         description: exam.details,
-        date: new Date(exam.date + 'T00:00:00'), // Ensure local timezone
+        date: date,
         time: exam.time,
         type: EventType.EXAM,
         priority: this.mapPriority(exam.priority),
