@@ -24,19 +24,11 @@ app.use(express.json());
 
 // CORS middleware
 app.use((req, res, next) => {
-  const allowedOrigins = [
-    'https://syllabus-to-calendar-jesus-donacianos-projects.vercel.app',
-    'http://localhost:3000'
-  ];
-  
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-  
+  // Allow all origins for now (you can restrict this later)
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Credentials', 'false'); // Set to false when using *
   
   if (req.method === 'OPTIONS') {
     res.sendStatus(200);
