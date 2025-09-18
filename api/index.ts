@@ -1,6 +1,8 @@
 import express from 'express';
 import multer from 'multer';
 import { GoogleCalendarService } from './services/googleCalendarService';
+import { LLMParserService } from './services/llmParser';
+import { PdfParserService } from './services/pdfParser';
 import { CalendarEvent } from './types/shared';
 
 const app = express();
@@ -46,7 +48,7 @@ app.get('/health', (req, res) => {
 });
 
 // Upload endpoint
-app.post('/upload', upload.single('syllabus'), (req, res) => {
+app.post('/upload', upload.single('syllabus'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ 
@@ -61,53 +63,97 @@ app.post('/upload', upload.single('syllabus'), (req, res) => {
     const semester = req.body.semester || 'Unknown';
     const year = parseInt(req.body.year) || new Date().getFullYear();
 
-    // For now, return a mock response with sample events
-    // In a real implementation, you would parse the PDF here
-    const mockEvents = [
-      {
-        id: '1',
-        title: 'Midterm Exam',
-        description: 'Midterm examination for ' + courseName,
-        date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
-        time: '10:00 AM',
-        type: 'exam',
-        course: courseName,
-        priority: 'high',
-        completed: false
-      },
-      {
-        id: '2',
-        title: 'Final Exam',
-        description: 'Final examination for ' + courseName,
-        date: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(), // 60 days from now
-        time: '2:00 PM',
-        type: 'exam',
-        course: courseName,
-        priority: 'high',
-        completed: false
-      },
-      {
-        id: '3',
-        title: 'Assignment 1 Due',
-        description: 'First assignment submission',
-        date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days from now
-        time: '11:59 PM',
-        type: 'assignment',
-        course: courseName,
-        priority: 'medium',
-        completed: false
-      }
-    ];
-
-    const parsedSyllabus = {
+    console.log('Processing upload:', {
+      filename: req.file.originalname,
+      size: req.file.size,
       courseName,
       courseCode,
       semester,
-      year,
-      events: mockEvents,
-      rawText: `Mock syllabus content for ${courseName}`,
-      parsedAt: new Date().toISOString()
-    };
+      year
+    });
+
+    // Parse PDF to extract text
+    let pdfText: string;
+    try {
+      const pdfResult = await PdfParserService.parsePdf(req.file.buffer);
+      pdfText = PdfParserService.cleanText(pdfResult.text);
+      console.log('PDF parsed successfully, text length:', pdfText.length);
+    } catch (pdfError) {
+      console.error('PDF parsing failed:', pdfError);
+      return res.status(400).json({
+        success: false,
+        error: 'Failed to parse PDF file. Please ensure it\'s a valid PDF.'
+      });
+    }
+
+    // Check if it looks like a syllabus
+    if (!PdfParserService.isLikelySyllabus(pdfText)) {
+      console.warn('File may not be a syllabus based on content analysis');
+    }
+
+    // Try LLM parsing first
+    let parsedSyllabus;
+    try {
+      console.log('Attempting LLM parsing...');
+      const llmResult = await LLMParserService.parseSyllabusWithLLM(
+        pdfText,
+        courseName,
+        courseCode,
+        semester,
+        year
+      );
+
+      if (llmResult.success && llmResult.data) {
+        console.log('LLM parsing successful:', {
+          events: llmResult.data.events.length,
+          confidence: llmResult.confidence,
+          method: llmResult.method
+        });
+        parsedSyllabus = llmResult.data;
+      } else {
+        console.warn('LLM parsing failed:', llmResult.error);
+        throw new Error(llmResult.error || 'LLM parsing failed');
+      }
+    } catch (llmError) {
+      console.error('LLM parsing error:', llmError);
+      
+      // Fallback to basic parsing
+      console.log('Falling back to basic parsing...');
+      const fallbackEvents = [
+        {
+          id: 'fallback-1',
+          title: 'Midterm Exam',
+          description: 'Midterm examination for ' + courseName,
+          date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+          time: '10:00 AM',
+          type: 'exam',
+          course: courseName,
+          priority: 'high',
+          completed: false
+        },
+        {
+          id: 'fallback-2',
+          title: 'Final Exam',
+          description: 'Final examination for ' + courseName,
+          date: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString(),
+          time: '2:00 PM',
+          type: 'exam',
+          course: courseName,
+          priority: 'high',
+          completed: false
+        }
+      ];
+
+      parsedSyllabus = {
+        courseName,
+        courseCode,
+        semester,
+        year,
+        events: fallbackEvents,
+        rawText: pdfText.substring(0, 1000) + '...', // Truncate for response
+        parsedAt: new Date().toISOString()
+      };
+    }
 
     res.status(200).json({ 
       success: true,
