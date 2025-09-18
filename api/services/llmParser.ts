@@ -335,6 +335,12 @@ UNIVERSAL PATTERN RECOGNITION (APPLIES TO ALL SYLLABI):
 - "• Review: [Content]" → Extract as reading with the date from the week/section
 - "• Study: [Content]" → Extract as reading with the date from the week/section
 
+CRITICAL WEEKLY STRUCTURE UNDERSTANDING:
+- When you see a weekly schedule with a date header, ALL content listed under that date belongs to that date
+- If you see "February 7" followed by bullet points including "• Optional Listening:", extract the optional listening for February 7
+- If you see "March 21" followed by bullet points including "• Complete:", extract the complete item for March 21
+- The date applies to ALL bullet points listed under it in the weekly schedule
+
 UNIVERSAL EXAMPLES (ALL SYLLABUS TYPES):
 - "Week 1 January 17: Introduction materials" → Extract as ONE event for January 17, type: "reading"
 - "Week 4 February 7: Midterm preparation" → Extract as ONE event for February 7, type: "assignment"
@@ -342,7 +348,18 @@ UNIVERSAL EXAMPLES (ALL SYLLABUS TYPES):
 - "March 21 • Complete: Course evaluation" → Extract as assignment for March 21, type: "assignment"
 - "January 17 • Watch: Lecture videos" → Extract as reading for January 17, type: "reading"
 
+WEEKLY STRUCTURE EXAMPLES:
+- If you see "February 7" followed by multiple bullet points including "• Optional Listening: Podcasts 4, 5, and 6", extract "Podcasts 4, 5, and 6" as reading for February 7, 2025
+- If you see "March 21" followed by bullet points including "• Complete: Online course evaluation", extract "Online course evaluation" as assignment for March 21, 2025
+- The date header applies to ALL content listed under it in the weekly schedule
+
 ABSOLUTE UNIVERSAL RULE: If you see ANY specific date (January, February, March, April, etc.) followed by ANY content (• Optional, • Complete, • Read, • Watch, etc.), extract it as an assignment/reading with that specific date. NEVER put dated content in "activities".
+
+CRITICAL DESCRIPTION RULES:
+- Keep descriptions GENERAL and UNIVERSAL - do not include specific passwords, URLs, or course-specific details
+- For "Optional Listening: Podcasts X, Y, and Z" → Description should be "Optional Listening: Podcasts X, Y, and Z" (without specific website details)
+- For "Complete: Course evaluation" → Description should be "Complete: Course evaluation" (without specific instructions)
+- Extract the core activity, not administrative details
 
 UNIVERSAL DATE HANDLING RULES (ALL SYLLABI):
 - ALWAYS use the EXACT date mentioned in any format (Week X [Date]:, [Date] •, etc.)
