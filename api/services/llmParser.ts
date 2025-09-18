@@ -223,6 +223,8 @@ ABSOLUTE PRIORITY: If you see ANY content with a specific date (any month/day co
 
 CRITICAL HIERARCHY RULE: When you see a date followed by bullet points on separate lines, ALL those bullet points belong to that date. For example: "January 24" followed by "• Read: [content]" and "• Optional Listening: [content]" means BOTH items are for January 24. NEVER extract bullet points as separate undated items when they appear under a date header.
 
+ABSOLUTE HIERARCHICAL STRUCTURE RULE: If you see ANY date (like "February 7", "February 24", "March 21") followed by multiple bullet points, ALL those bullet points belong to that date. This includes "• Optional Listening:", "• Complete:", "• Read:", etc. Look backwards in the text for the nearest date header above any bullet point.
+
 UNIVERSAL RULE FOR OPTIONAL TASKS: If you see "• Optional Listening:" or "• Optional Reading:" or "• Optional Watching:" in the text, ALWAYS extract it as a reading activity. Check if it appears under a specific date header - if it does, extract it with that date. If it appears in a general section without a specific date, extract it as an activity without a date. Never ignore optional tasks - they are always valuable content to extract.
 
 ${courseInfo}
@@ -233,13 +235,15 @@ ${text}
 EXTRACTION RULES:
 1. FIND ALL weekly schedules, assignment schedules, and reading schedules
 2. EXTRACT EVERY week's content (Week 1, Week 2, Week 3, etc.)
-3. EXTRACT assignments with due dates
-4. EXTRACT readings with page numbers and case names
-5. EXTRACT exams with dates
-6. EXTRACT project deadlines, presentations, quizzes, midterms, finals
-7. EXTRACT discussion posts, participation requirements, attendance
-8. EXTRACT lab sessions, tutorials, office hours if they have specific dates
-9. IGNORE: course descriptions, policies, contact info, general materials, grading scales
+3. CRITICAL: When you see a date header (like "February 7", "February 24", "March 21") followed by bullet points, ALL bullet points belong to that date
+4. CRITICAL: Look backwards from any bullet point to find the nearest date header above it
+5. EXTRACT assignments with due dates
+6. EXTRACT readings with page numbers and case names
+7. EXTRACT exams with dates
+8. EXTRACT project deadlines, presentations, quizzes, midterms, finals
+9. EXTRACT discussion posts, participation requirements, attendance
+10. EXTRACT lab sessions, tutorials, office hours if they have specific dates
+11. IGNORE: course descriptions, policies, contact info, general materials, grading scales
 
 SPECIFIC PATTERNS TO FIND:
 - "Week X Readings:" → Extract all readings for that week
@@ -374,6 +378,8 @@ UNIVERSAL OPTIONAL TASK EXAMPLES:
 - If you see "• Optional Reading: [content]" under a date header like "February 7", extract it as reading for February 7
 - If you see "• Optional Listening: [content]" in a general section without a specific date, extract it as an activity without a date
 - ALWAYS extract optional tasks - never ignore them. The key is checking if the optional task appears under a specific date header or in a general section
+
+CRITICAL DATE LOOKUP RULE: When you encounter ANY bullet point (• Optional Listening:, • Complete:, • Read:, etc.), ALWAYS look backwards in the text for the nearest date header above it. That date applies to the bullet point content.
 
 ABSOLUTE UNIVERSAL RULE: If you see ANY specific date (January, February, March, April, etc.) followed by ANY content (• Optional, • Complete, • Read, • Watch, etc.), extract it as an assignment/reading with that specific date. NEVER put dated content in "activities".
 
