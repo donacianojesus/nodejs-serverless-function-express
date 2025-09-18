@@ -22,13 +22,12 @@ const getGoogleCalendarService = () => {
 // Middleware
 app.use(express.json());
 
-// CORS middleware
+// CORS middleware - PERMISSIVE (allows all origins)
 app.use((req, res, next) => {
-  // Allow all origins for now (you can restrict this later)
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'false'); // Set to false when using *
+  res.header('Access-Control-Allow-Credentials', 'false');
   
   if (req.method === 'OPTIONS') {
     res.sendStatus(200);
@@ -40,18 +39,38 @@ app.use((req, res, next) => {
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ 
-    status: 'healthy', 
+    status: 'ok', 
     timestamp: new Date().toISOString(),
-    service: 'LawBandit Calendar API'
+    service: 'lawbandit-calendar-backend'
   });
 });
 
-// Upload endpoint (placeholder - you'll need to implement this)
+// Upload endpoint
 app.post('/upload', upload.single('syllabus'), (req, res) => {
-  res.status(200).json({ 
-    message: 'Upload endpoint - implement your syllabus parsing logic here',
-    success: true 
-  });
+  try {
+    if (!req.file) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'No file uploaded' 
+      });
+    }
+
+    // For now, just return success - you can add parsing logic later
+    res.status(200).json({ 
+      success: true,
+      message: 'File uploaded successfully',
+      data: {
+        filename: req.file.originalname,
+        size: req.file.size
+      }
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'There was an error processing your syllabus' 
+    });
+  }
 });
 
 // Google Calendar endpoints
