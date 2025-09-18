@@ -221,6 +221,8 @@ CRITICAL: Extract EVERY week's assignments, not just the first week!
 
 ABSOLUTE PRIORITY: If you see ANY content with a specific date (any month/day combination), extract it as an assignment/reading with that date. NEVER put dated content in "activities" - only put truly undated content in activities. This applies to ALL syllabus types and formats.
 
+CRITICAL HIERARCHY RULE: When you see a date followed by bullet points on separate lines, ALL those bullet points belong to that date. For example: "January 24" followed by "• Read: [content]" and "• Optional Listening: [content]" means BOTH items are for January 24. NEVER extract bullet points as separate undated items when they appear under a date header.
+
 ${courseInfo}
 
 Syllabus Text:
@@ -341,6 +343,12 @@ CRITICAL WEEKLY STRUCTURE UNDERSTANDING:
 - If you see "March 21" followed by bullet points including "• Complete:", extract the complete item for March 21
 - The date applies to ALL bullet points listed under it in the weekly schedule
 
+CRITICAL HIERARCHICAL STRUCTURE RECOGNITION:
+- When you see a date (like "January 24", "February 7", "March 21") followed by multiple bullet points on separate lines, ALL those bullet points belong to that date
+- Example: If you see "January 24" followed by "• Read: [content]" and "• Optional Listening: [content]", BOTH items are for January 24
+- Example: If you see "February 7" followed by "• Read: [content]" and "• Optional Listening: [content]", BOTH items are for February 7
+- NEVER extract bullet points as separate undated items when they appear under a date header
+
 UNIVERSAL EXAMPLES (ALL SYLLABUS TYPES):
 - "Week 1 January 17: Introduction materials" → Extract as ONE event for January 17, type: "reading"
 - "Week 4 February 7: Midterm preparation" → Extract as ONE event for February 7, type: "assignment"
@@ -352,6 +360,12 @@ WEEKLY STRUCTURE EXAMPLES:
 - If you see "February 7" followed by multiple bullet points including "• Optional Listening: Podcasts 4, 5, and 6", extract "Podcasts 4, 5, and 6" as reading for February 7, 2025
 - If you see "March 21" followed by bullet points including "• Complete: Online course evaluation", extract "Online course evaluation" as assignment for March 21, 2025
 - The date header applies to ALL content listed under it in the weekly schedule
+
+SPECIFIC HIERARCHICAL EXAMPLES:
+- "January 24" followed by "• Read: Syllabus and Assignment Schedule" and "• Optional Listening: Podcasts 1, 2, and 3" → Extract BOTH items for January 24
+- "February 7" followed by "• Read: Handbook: Chapter 39" and "• Optional Listening: Podcasts 4, 5, and 6" → Extract BOTH items for February 7
+- "February 24" followed by "• Read: Handbook: Chapter 33" and "• Optional Listening: Podcasts 7, 8, and 9" → Extract BOTH items for February 24
+- NEVER put "Optional Listening" items in activities when they appear under a date header
 
 ABSOLUTE UNIVERSAL RULE: If you see ANY specific date (January, February, March, April, etc.) followed by ANY content (• Optional, • Complete, • Read, • Watch, etc.), extract it as an assignment/reading with that specific date. NEVER put dated content in "activities".
 
