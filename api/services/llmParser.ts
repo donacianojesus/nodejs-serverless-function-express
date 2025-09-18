@@ -223,6 +223,8 @@ ABSOLUTE PRIORITY: If you see ANY content with a specific date (any month/day co
 
 CRITICAL HIERARCHY RULE: When you see a date followed by bullet points on separate lines, ALL those bullet points belong to that date. For example: "January 24" followed by "• Read: [content]" and "• Optional Listening: [content]" means BOTH items are for January 24. NEVER extract bullet points as separate undated items when they appear under a date header.
 
+ABSOLUTE RULE FOR OPTIONAL LISTENING: If you see "• Optional Listening:" or "• Optional Reading:" or "• Optional Watching:" anywhere in the text, it MUST have a date. Look for the nearest date header above it in the weekly schedule. NEVER put "Optional Listening" items in activities - they ALWAYS belong to a specific date.
+
 ${courseInfo}
 
 Syllabus Text:
@@ -367,6 +369,12 @@ SPECIFIC HIERARCHICAL EXAMPLES:
 - "February 24" followed by "• Read: Handbook: Chapter 33" and "• Optional Listening: Podcasts 7, 8, and 9" → Extract BOTH items for February 24
 - NEVER put "Optional Listening" items in activities when they appear under a date header
 
+CRITICAL OPTIONAL LISTENING EXAMPLES:
+- If you see "• Optional Listening: Podcasts 1, 2, and 3" anywhere in the text, look backwards for "January 24" and extract it as reading for January 24, 2025
+- If you see "• Optional Listening: Podcasts 4, 5, and 6" anywhere in the text, look backwards for "February 7" and extract it as reading for February 7, 2025
+- If you see "• Optional Listening: Podcasts 7, 8, and 9" anywhere in the text, look backwards for "February 24" and extract it as reading for February 24, 2025
+- NEVER extract optional listening items without dates - they ALWAYS belong to a specific date
+
 ABSOLUTE UNIVERSAL RULE: If you see ANY specific date (January, February, March, April, etc.) followed by ANY content (• Optional, • Complete, • Read, • Watch, etc.), extract it as an assignment/reading with that specific date. NEVER put dated content in "activities".
 
 CRITICAL DESCRIPTION RULES:
@@ -434,6 +442,8 @@ CRITICAL: Extract ALL weeks, not just Week 1. Look for every "Week X:" pattern i
 CRITICAL: If you see ANY specific date (any month/day combination), extract the content for that date as an assignment/reading. NEVER put dated content in activities.
 CRITICAL: Activities should ONLY contain content with NO specific dates mentioned anywhere.
 CRITICAL: These rules apply to ALL syllabus types - law school, undergraduate, graduate, etc.
+
+FINAL CRITICAL RULE: If you see "• Optional Listening:" or "• Optional Reading:" anywhere in the text, it MUST have a date. Look backwards in the text for the nearest date (like "January 24", "February 7", "February 24", "March 21"). That date applies to the optional listening item. NEVER put optional listening items in activities - they ALWAYS have dates.
 
 JSON Response:`;
   }
