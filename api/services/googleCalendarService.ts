@@ -34,7 +34,7 @@ export class GoogleCalendarService {
   constructor() {
     // Determine redirect URI based on environment
     const redirectUri = process.env.NODE_ENV === 'production' 
-      ? 'https://syllabus-to-calendar-jesus-donacianos-projects.vercel.app/google-auth-callback'
+      ? 'https://syllabus-to-calendar-kappa.vercel.app/google-auth-callback'
       : 'http://localhost:3000/google-auth-callback';
     
     // Initialize OAuth2 client with environment variables
