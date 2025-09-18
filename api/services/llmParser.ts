@@ -238,6 +238,8 @@ EXTRACTION RULES:
 SPECIFIC PATTERNS TO FIND:
 - "Week X Readings:" → Extract all readings for that week
 - "Week X:" → Extract all assignments for that week
+- "Week X [Date]:" → Extract as single event with that specific date
+- "Week X [Date]: [Content]" → Extract as single event for that date
 - "Assignment Due:" → Extract as assignment
 - "Exam:" or "Midterm" or "Final" → Extract as exam
 - "Read:" → Extract as reading
@@ -259,6 +261,9 @@ SPECIFIC PATTERNS TO FIND:
 - "Research Report" → Extract as assignment
 - "Complete Motion" → Extract as assignment
 - "Partial Motion" → Extract as assignment
+- "Podcast" → Extract as reading/homework activity
+- "Course evaluation" → Extract as assignment
+- "Online course evaluation" → Extract as assignment
 
 READING EXTRACTION RULES:
 - ALWAYS include the week number and day (e.g., "Week 1 Monday:", "Week 2 Wednesday:")
@@ -295,6 +300,16 @@ DATE EXTRACTION RULES:
 - For Spring 2025: Week 1 = January 17, Week 2 = January 24, Week 3 = January 31, Week 4 = February 7, Week 5 = February 14, Week 6 = February 21, Week 7 = February 28, Week 8 = March 7, Week 9 = March 14, Week 10 = March 21, Week 11 = March 28, Week 12 = April 4
 - If an assignment has a specific due date mentioned, extract that exact date
 - Look for patterns like "January 17", "February 7", "March 31", "April 3-4"
+- CRITICAL: When you see "Week X [Date]:" format (e.g., "Week 1 January 17:", "Week 4 February 7:"), extract as a SINGLE event for that specific date
+- CRITICAL: Do NOT duplicate dates - if you see "Week 1 January 17: Podcasts 1, 2, and 3", create ONE event for January 17, 2025
+- CRITICAL: For "Week X [Date]: [Content]" patterns, extract the content as the event description and use the specific date provided
+
+SPECIFIC EXAMPLES TO FOLLOW:
+- "Week 1 January 17: Podcasts 1, 2, and 3" → Extract as ONE event: "Podcasts 1, 2, and 3" for January 17, 2025, type: "reading"
+- "Week 4 February 7: Podcasts 4, 5, and 6" → Extract as ONE event: "Podcasts 4, 5, and 6" for February 7, 2025, type: "reading"
+- "Week 7 February 24: Podcasts 7, 8, and 9" → Extract as ONE event: "Podcasts 7, 8, and 9" for February 24, 2025, type: "reading"
+- "Week 10 March 21: Online course evaluation" → Extract as ONE event: "Online course evaluation" for March 21, 2025, type: "assignment"
+- "The Handbook for the New Legal Writer: Chapters 25-28, pages 181-206" → Extract as assignment for the specific due date, type: "assignment"
 
 ASSIGNMENT SCHEDULE EXTRACTION:
 - Look for "ASSIGNMENT SCHEDULE" or "Reading and Assignment Schedule" sections
