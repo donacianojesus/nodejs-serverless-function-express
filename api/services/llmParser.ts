@@ -217,6 +217,8 @@ export class LLMParserService {
 
     return `You are an expert at parsing academic syllabi. Extract ALL specific assignments, readings, and exams from the syllabus text below.
 
+ABSOLUTE HIERARCHICAL RULE: When you see ANY date header (like "February 7", "February 24", "March 21") followed by bullet points, ALL those bullet points belong to that date. You MUST scan backwards from every bullet point to find the nearest date header above it.
+
 CRITICAL: Extract EVERY week's assignments, not just the first week!
 
 ABSOLUTE PRIORITY: If you see ANY content with a specific date (any month/day combination), extract it as an assignment/reading with that date. NEVER put dated content in "activities" - only put truly undated content in activities. This applies to ALL syllabus types and formats.
@@ -381,6 +383,8 @@ UNIVERSAL OPTIONAL TASK EXAMPLES:
 
 CRITICAL DATE LOOKUP RULE: When you encounter ANY bullet point (• Optional Listening:, • Complete:, • Read:, etc.), ALWAYS look backwards in the text for the nearest date header above it. That date applies to the bullet point content.
 
+MANDATORY HIERARCHICAL PROCESSING: For EVERY bullet point you encounter, you MUST scan backwards through the text to find the most recent date header (like "February 7", "February 24", "March 21"). That date header applies to ALL bullet points that follow it until the next date header appears.
+
 ABSOLUTE UNIVERSAL RULE: If you see ANY specific date (January, February, March, April, etc.) followed by ANY content (• Optional, • Complete, • Read, • Watch, etc.), extract it as an assignment/reading with that specific date. NEVER put dated content in "activities".
 
 CRITICAL DESCRIPTION RULES:
@@ -448,6 +452,7 @@ CRITICAL: Extract ALL weeks, not just Week 1. Look for every "Week X:" pattern i
 CRITICAL: If you see ANY specific date (any month/day combination), extract the content for that date as an assignment/reading. NEVER put dated content in activities.
 CRITICAL: Activities should ONLY contain content with NO specific dates mentioned anywhere.
 CRITICAL: ALWAYS extract optional tasks (• Optional Listening:, • Optional Reading:, • Optional Watching:) - never ignore them.
+CRITICAL: For EVERY bullet point, scan backwards to find the nearest date header - that date applies to the bullet point.
 CRITICAL: These rules apply to ALL syllabus types - law school, undergraduate, graduate, etc.
 
 FINAL UNIVERSAL RULE: For optional tasks like "• Optional Listening:" or "• Optional Reading:", ALWAYS extract them. Check if they appear under a specific date header - if they do, extract them with that date. If they appear in a general section without a specific date, extract them as activities without a date. Never ignore optional tasks - they are always valuable content to extract regardless of syllabus type.
