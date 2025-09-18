@@ -303,6 +303,16 @@ DATE EXTRACTION RULES:
 - CRITICAL: When you see "Week X [Date]:" format (e.g., "Week 1 January 17:", "Week 4 February 7:"), extract as a SINGLE event for that specific date
 - CRITICAL: Do NOT duplicate dates - if you see "Week 1 January 17: Podcasts 1, 2, and 3", create ONE event for January 17, 2025
 - CRITICAL: For "Week X [Date]: [Content]" patterns, extract the content as the event description and use the specific date provided
+CRITICAL: "Week 1 January 17: Podcasts 1, 2, and 3" should create ONE event with:
+  - title: "Podcasts 1, 2, and 3"
+  - date: "2025-01-17" (January 17, 2025)
+  - type: "reading"
+  - description: "Optional Listening: Podcasts 1, 2, and 3 at jillbarton.net. The password is Kagan!"
+CRITICAL: "Week 10 March 21: Online course evaluation" should create ONE event with:
+  - title: "Online course evaluation"
+  - date: "2025-03-21" (March 21, 2025)
+  - type: "assignment"
+  - description: "Complete: Online course evaluation"
 
 SPECIFIC EXAMPLES TO FOLLOW:
 - "Week 1 January 17: Podcasts 1, 2, and 3" → Extract as ONE event: "Podcasts 1, 2, and 3" for January 17, 2025, type: "reading"
@@ -310,6 +320,16 @@ SPECIFIC EXAMPLES TO FOLLOW:
 - "Week 7 February 24: Podcasts 7, 8, and 9" → Extract as ONE event: "Podcasts 7, 8, and 9" for February 24, 2025, type: "reading"
 - "Week 10 March 21: Online course evaluation" → Extract as ONE event: "Online course evaluation" for March 21, 2025, type: "assignment"
 - "The Handbook for the New Legal Writer: Chapters 25-28, pages 181-206" → Extract as assignment for the specific due date, type: "assignment"
+
+CRITICAL DATE FIXES:
+- When you see "Week 1 January 17:" the date should be January 17, 2025 (NOT January 16, 2025)
+- When you see "Week 2 January 24:" the date should be January 24, 2025 (NOT January 23, 2025)
+- When you see "Week 3 January 31:" the date should be January 31, 2025 (NOT January 30, 2025)
+- When you see "Week 4 February 7:" the date should be February 7, 2025 (NOT February 6, 2025)
+- ALWAYS use the EXACT date mentioned in the "Week X [Date]:" format
+- DO NOT subtract one day from the date - use the date as written
+- NEVER use date arithmetic - if the syllabus says "January 17", use "January 17, 2025"
+- NEVER convert dates to the day before - this is a critical error
 
 ASSIGNMENT SCHEDULE EXTRACTION:
 - Look for "ASSIGNMENT SCHEDULE" or "Reading and Assignment Schedule" sections
